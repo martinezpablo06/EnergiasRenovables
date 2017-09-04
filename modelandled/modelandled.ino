@@ -23,9 +23,9 @@
     pinMode(6, OUTPUT);   
     pinMode(7, OUTPUT);       
     
-    digitalWrite(5, HIGH);
-    digitalWrite(6, HIGH);
-    digitalWrite(7, HIGH);
+    digitalWrite(5, LOW);
+    digitalWrite(6, LOW);
+    digitalWrite(7, LOW);
   }
         
      
@@ -57,11 +57,11 @@
     }else if (data > 0){
       if (data % 2 == 0){
         int auxpar = (data/2);
-        digitalWrite(relePins[auxpar],HIGH); 
+        digitalWrite(relePins[auxpar],LOW); 
       }
       else if (data % 2 != 0) {
         int auximpar = ((data + 1)/2);
-        digitalWrite(relePins[auximpar],LOW);
+        digitalWrite(relePins[auximpar],HIGH);
       }  
     }
     delay(200);

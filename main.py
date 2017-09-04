@@ -1,7 +1,7 @@
 
 import serial
 import time
-
+import RPi.GPIO as GPIO
 import kivy
 kivy.require('1.0.6') # replace with your current kivy version !
 
@@ -13,6 +13,7 @@ from kivy.uix.image import Image
 from kivy.uix.slider import Slider
 from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
+
 
 
 arduino = serial.Serial('/dev/ttyUSB0', baudrate=9600)
@@ -79,6 +80,17 @@ def press_callback(obj):
 				arduino.write('47')
 				#GPIO.output(ledPin, GPIO.HIGH)
 
+bti = InputButton(text="bti")
+        Clock.schedule_interval(bti.update, 1.0/10.0)
+        layout.add_widget(bti)
+
+class InputButton(Button):
+    def update(self, dt):
+        if GPIO.input(buttonPin) == True:
+            self.state = 'normal'
+        else:
+            self.state = 'down'
+
 class MyApp(App):
 
 	def build(self):
@@ -89,6 +101,10 @@ class MyApp(App):
 		with layout.canvas.before:
 			Color(.2,.2,.2,1)
 			self.rect = Rectangle(size=(1920,1080), pos=layout.pos)
+            
+            bti = InputButton(text="bti")
+            Clock.schedule_interval(bti.update, 1.0/10.0)
+            layout.add_widget(bti)
 
 		button1 = ToggleButton(text="button1")
 		button1.bind(on_press=press_callback)

@@ -14,18 +14,13 @@ from kivy.uix.slider import Slider
 from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 
-
+arduino = serial.Serial('/dev/ttyUSB0', baudrate=9600)
 Config.set('input', 'hid_%(name)s',  'probesysfs,provider=hidinput,param=rotation=270,param=invert_y=1')
 Config.write()
-arduino = serial.Serial('/dev/ttyUSB0', baudrate=9600)
-#arduino.open()
-
 swState = "000"
 buttonPin = 12 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-# Define some helper functions:
-
 button1 = ToggleButton(text="button1")
 button2 = ToggleButton(text="button2")
 button3 = ToggleButton(text="button2")
@@ -77,10 +72,8 @@ class InputButton(Button):
 			self.state = 'normal'
 		else:
 			self.state = 'down'
-			#arduino.flush()
 			arduino.write('99')
 			auxswState = ""
-			#time.sleep(0.1)
 			while arduino.inWaiting()>0:
 				auxswState+=arduino.read(1)
 			if (len(auxswState) >= 3):
@@ -88,10 +81,8 @@ class InputButton(Button):
 				swState = auxswState
 				print (swState)
 			time.sleep(0.1)
-			#arduino.flush()
 			arduino.write('99')
 			auxswState = ""
-			#time.sleep(0.1)
 			while arduino.inWaiting()>0:
 				auxswState+=arduino.read(1)
 			if (len(auxswState) >= 3):
@@ -115,23 +106,15 @@ class MyApp(App):
 		# Set up the layout:
 		layout = GridLayout(cols=4, spacing=20, padding=40, rows=2)
 
-		# Make the background gray:
 		with layout.canvas.before:
 			Color(.2,.2,.2,1)
 			self.rect = Rectangle(size=(1920,1080), pos=layout.pos)
             
-
-
-
 		button1.bind(on_press=press_callback)
-
-
 		button2.bind(on_press=press_callback)
-
-
 		button3.bind(on_press=press_callback)
-
 		bti = InputButton(text="bti")
+
 		Clock.schedule_interval(bti.update, 1.0/10.0)
 		#layout.add_widget(bti)
 

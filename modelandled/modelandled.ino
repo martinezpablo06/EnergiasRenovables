@@ -71,7 +71,6 @@
       digitalWrite(relePins[24],HIGH);
     }
 
-
     if ( arrayState[0] != sw1){
        arrayState[0] = sw1;
        atr = 1;
@@ -96,10 +95,11 @@
     
     while(Serial.available() > 0){
       char ch = Serial.read();
-      if (isDigit(ch)) { //Filtrado de entrada solo deja numeros 0 al 9
+      if (isDigit(ch)) { 
         codigo += ch;
       } 
     } 
+
     int data = codigo.toInt();
 
     if(data == 99){ 
@@ -107,9 +107,7 @@
         Serial.print(arrayState[0]);
         Serial.print(arrayState[1]);
         Serial.print(arrayState[2]);
-        //Serial.println();
-        
- 
+
     } else if (data < 99){
       if (data % 2 == 0){
         int auxpar = (data/2);
@@ -120,5 +118,4 @@
         digitalWrite(relePins[auximpar],LOW);
       }  
     }
- 
   }

@@ -61,6 +61,17 @@
 
     delay(200);
 
+    if(sw1 == 0){
+      digitalWrite(relePins[1],HIGH);
+    }
+    if(sw2 == 0){
+      digitalWrite(relePins[6],HIGH);
+    }
+    if(sw3 == 0){
+      digitalWrite(relePins[24],HIGH);
+    }
+
+
     if ( arrayState[0] != sw1){
        arrayState[0] = sw1;
        atr = 1;

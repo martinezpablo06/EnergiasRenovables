@@ -26,6 +26,9 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 # Define some helper functions:
 
+button1 = ToggleButton(text="button1")
+button2 = ToggleButton(text="button2")
+button3 = ToggleButton(text="button2")
 
 def press_callback(obj):
 	if obj.text == 'button1':		
@@ -69,6 +72,7 @@ def press_callback(obj):
 
 class InputButton(Button):
     def update(self, dt):
+		global swState		
 		if GPIO.input(buttonPin) == True:
 			self.state = 'normal'
 		else:
@@ -91,10 +95,19 @@ class InputButton(Button):
 			while arduino.inWaiting()>0:
 				auxswState+=arduino.read(1)
 			if (len(auxswState) >= 3):
-				global swState
 				swState = auxswState
 				print (swState)
 			time.sleep(0.1)
+			i = 0
+			global button1
+			global button2
+			global button3
+			if(swState[0] == '0'):
+			 	button1.state = "normal"
+			if(swState[1] == '0'):
+			 	button2.state = "normal"
+			if(swState[2] == '0'):
+			 	button3.state = "normal"
 			
 class MyApp(App):
 
@@ -108,13 +121,14 @@ class MyApp(App):
 			self.rect = Rectangle(size=(1920,1080), pos=layout.pos)
             
 
-		button1 = ToggleButton(text="button1")
+
+
 		button1.bind(on_press=press_callback)
 
-		button2 = ToggleButton(text="button2")
+
 		button2.bind(on_press=press_callback)
 
-		button3 = ToggleButton(text="button3")
+
 		button3.bind(on_press=press_callback)
 
 		bti = InputButton(text="bti")

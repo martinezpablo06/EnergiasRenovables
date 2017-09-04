@@ -23,7 +23,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 button1 = ToggleButton(text="button1")
 button2 = ToggleButton(text="button2")
-button3 = ToggleButton(text="button2")
+button3 = ToggleButton(text="button3")
 
 def press_callback(obj):
 	if obj.text == 'button1':		

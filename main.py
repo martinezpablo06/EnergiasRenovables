@@ -1,4 +1,3 @@
-
 import serial
 import time
 import RPi.GPIO as GPIO
@@ -14,9 +13,7 @@ from kivy.uix.slider import Slider
 from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 
-
-
-arduino = serial.Serial('/dev/ttyUSB1', baudrate=9600)
+arduino = serial.Serial('/dev/ttyUSB0', baudrate=9600)
 #arduino.open()
 
 swState = "000"
@@ -82,14 +79,19 @@ class InputButton(Button):
 				global swState
 				swState = auxswState
 				print (swState)
-				'''
-				val = int (auxswState)			
-				print (type(val))
-
-				print val
-				'''
 			time.sleep(0.1)
-
+			#arduino.flush()
+			arduino.write('99')
+			auxswState = ""
+			#time.sleep(0.1)
+			while arduino.inWaiting()>0:
+				auxswState+=arduino.read(1)
+			if (len(auxswState) >= 3):
+				global swState
+				swState = auxswState
+				print (swState)
+			time.sleep(0.1)
+			
 class MyApp(App):
 
 	def build(self):
@@ -113,7 +115,7 @@ class MyApp(App):
 
 		bti = InputButton(text="bti")
 		Clock.schedule_interval(bti.update, 1.0/10.0)
-			#layout.add_widget(bti)
+		#layout.add_widget(bti)
 
 		layout.add_widget(button1)
 		layout.add_widget(button2)

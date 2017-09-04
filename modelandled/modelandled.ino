@@ -25,6 +25,7 @@
     pinMode(5, OUTPUT);   
     pinMode(6, OUTPUT);   
     pinMode(7, OUTPUT); 
+    pinMode(8, OUTPUT); 
 
     pinMode(rbpin, OUTPUT);  
     digitalWrite(rbpin, HIGH);
@@ -32,7 +33,8 @@
     digitalWrite(5, HIGH);
     digitalWrite(6, HIGH);
     digitalWrite(7, HIGH);
-
+    digitalWrite(8, HIGH);
+    
     arrayState[0] = 0;
     arrayState[1] = 0;
     arrayState[2] = 0;
@@ -78,7 +80,7 @@
         digitalWrite(rbpin,LOW);
         delay(100);
         digitalWrite(rbpin,HIGH);
-        atr = 0;
+        atr = 0;        
     }
     
     while(Serial.available() > 0){

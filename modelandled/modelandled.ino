@@ -3,8 +3,8 @@
   int switch3 = 4; 
   int rbpin = 5;     
   
-  int relePins[] = { 0, 8, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 
-                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7 };
+  int relePins[] = { 0, 6, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   
   int arrayState[]  = {0,0,0};
 
@@ -65,10 +65,10 @@
       digitalWrite(relePins[1],HIGH);
     }
     if(sw2 == 0){
-      digitalWrite(relePins[6],HIGH);
+      digitalWrite(relePins[2],HIGH);
     }
     if(sw3 == 0){
-      digitalWrite(relePins[24],HIGH);
+      digitalWrite(relePins[3],HIGH);
     }
 
     if ( arrayState[0] != sw1){

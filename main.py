@@ -14,7 +14,7 @@ from kivy.uix.slider import Slider
 from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 
-arduino = serial.Serial('/dev/ttyUSB0', baudrate=9600)
+arduino = serial.Serial('/dev/ttyACM0', baudrate=9600)
 Config.set('input', 'hid_%(name)s',  'probesysfs,provider=hidinput,param=rotation=270,param=invert_y=1')
 Config.write()
 swState = "000"
@@ -46,11 +46,11 @@ def press_callback(obj):
 			if(obj.state == "normal"):
 				print ("button 2 off")
 				print (swState)
-				arduino.write('12')
+				arduino.write('4')
 			elif(obj.state == "down"):
 				print ("button 2 on")
 				print (swState)
-				arduino.write('11')
+				arduino.write('3')
 	
 	if obj.text == 'button3':		
 		if(swState[2] == '0'):
@@ -59,11 +59,11 @@ def press_callback(obj):
 			if(obj.state == "normal"):
 				print ("button 3 off")
 				print (swState)
-				arduino.write('48')
+				arduino.write('6')
 			elif(obj.state == "down"):
 				print ("button 3 on")
 				print (swState)
-				arduino.write('47')
+				arduino.write('5')
 
 class InputButton(Button):
     def update(self, dt):

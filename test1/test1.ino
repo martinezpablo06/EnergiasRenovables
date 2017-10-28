@@ -51,10 +51,12 @@
         arrayState[i] = swAux;
         digitalWrite(rbpin,LOW);
         delay(200);
-        digitalWrite(rbpin,HIGH);
+        digitalWrite(rbpin,HIGH);        
+        
         for (int i=1; i <= cantLlave; i++){
           Serial.print(arrayState[i]);
-       }
+        }
+        
       }
 
     }
@@ -71,9 +73,13 @@
     data = codigo.toInt();
     if ((data<100) && (data>0)){
    
-      Serial.println("hola");
+      //Serial.println("hola");
       Serial.println(data);
-
+      if (data == 99){
+        Serial.print(arrayState[1]);
+        Serial.print(arrayState[2]);
+        Serial.print(arrayState[3]);
+      }
       if (data % 2 == 0){
         auxPar = (data/2);
         //arrayState[auxPar] = 0;

@@ -105,7 +105,7 @@ lay1 = BoxLayout(spacing=10)
 def update_speed(obj, value):
 	global speed
 	n = int (obj.value)
-	#print("Updating speed to:" + str(n))
+	print("Updating speed to:" + str(n))
 	label1.text = str(n)
 
 slider1 = Slider(orientation='horizontal', min=7, max=15, value=7,step=1,value_track=True, value_track_color=[0,128,128,0.7], size_hint=(.8,1))
@@ -428,6 +428,71 @@ def press_callback(obj):
 				print ("button 24 on")
 				GPIO.output(out24Pin, False)
 
+
+
+class InputButton1(Button):
+    def update(self, dt):
+		if GPIO.input(pulsador1) == True:
+			self.state = 'normal'
+		else:
+			self.state = 'down'
+
+class InputButton2(Button):
+    def update(self, dt):
+		if GPIO.input(pulsador2) == True:
+			self.state = 'normal'
+		else:
+			self.state = 'down'
+
+class InputButton3(Button):
+    def update(self, dt):
+		if GPIO.input(pulsador3) == True:
+			self.state = 'normal'
+		else:
+			self.state = 'down'
+
+class InputSW1(Button):
+    def update(self, dt):
+		if GPIO.input(sw1Pin) == True:
+			global button21
+			button21.state = "normal"
+			rbswState [1] = 0
+			GPIO.output(out21Pin, True)
+		else:
+			rbswState [1] = 1
+			#GPIO.output(out21Pin, False)
+	
+class InputSW2(Button):
+    def update(self, dt):
+		if GPIO.input(sw2Pin) == True:
+			global button22
+			button22.state = "normal"
+			rbswState [2] = 0
+			GPIO.output(out22Pin, True)
+		else:
+			rbswState [2] = 1
+
+class InputSW3(Button):
+    def update(self, dt):
+		if GPIO.input(sw3Pin) == True:			
+			global button23
+			button23.state = "normal"
+			rbswState [3] = 0
+			GPIO.output(out23Pin, True)	
+		else:
+			rbswState [3] = 1
+
+
+class InputSW4(Button):
+    def update(self, dt):
+		if GPIO.input(sw4Pin) == True:
+			global button24
+			button24.state = "normal"
+			rbswState [4] = 0
+			GPIO.output(out24Pin, True)
+		else:
+			rbswState [4] = 1
+
 class InputArduino(Button):
     def update(self, dt):
 
@@ -519,208 +584,129 @@ class InputArduino(Button):
 			if(swState[20] == 0):
 			 	button20.state = "normal"
 
-class InputButton1(Button):
-    def update(self, dt):
-		if GPIO.input(pulsador1) == True:
-			self.state = 'normal'
-		else:
-			self.state = 'down'
-
-class InputButton2(Button):
-    def update(self, dt):
-		if GPIO.input(pulsador2) == True:
-			self.state = 'normal'
-		else:
-			self.state = 'down'
-
-class InputButton3(Button):
-    def update(self, dt):
-		if GPIO.input(pulsador3) == True:
-			self.state = 'normal'
-		else:
-			self.state = 'down'
-
-class InputSW1(Button):
-    def update(self, dt):
-		if GPIO.input(sw1Pin) == True:
-			global button21
-			button21.state = "normal"
-			rbswState [1] = 0
-			GPIO.output(out21Pin, True)
-		else:
-			rbswState [1] = 1
-			#GPIO.output(out21Pin, False)
-	
-class InputSW2(Button):
-    def update(self, dt):
-		if GPIO.input(sw2Pin) == True:
-			global button22
-			button22.state = "normal"
-			rbswState [2] = 0
-			GPIO.output(out22Pin, True)
-		else:
-			rbswState [2] = 1
-
-class InputSW3(Button):
-    def update(self, dt):
-		if GPIO.input(sw3Pin) == True:			
-			global button23
-			button23.state = "normal"
-			rbswState [3] = 0
-			GPIO.output(out23Pin, True)	
-		else:
-			rbswState [3] = 1
-
-
-class InputSW4(Button):
-    def update(self, dt):
-		if GPIO.input(sw4Pin) == True:
-			global button24
-			button24.state = "normal"
-			rbswState [4] = 0
-			GPIO.output(out24Pin, True)
-		else:
-			rbswState [4] = 1
-
 class MyApp(App):		
 	def build(self):
-		# Set up the layout:
-		layout = GridLayout(cols=7, spacing=20, padding=40, rows=4)
-
-		with layout.canvas.before:
+		megalayout = BoxLayout(orientation='vertical',spacing=10)
+		with megalayout.canvas.before:
 			Color(.2,.2,.2,1)
-			self.rect = Rectangle(size=(1024,600), pos=layout.pos)
+			self.rect = Rectangle(size=(1024,600), pos=megalayout.pos)
+			
+			titlelayout = BoxLayout(orientation='horizontal',size_hint=(1,.2),spacing=10  )
+			with titlelayout.canvas.before:
+				title1 = BoxLayout(orientation='horizontal',size_hint=(.3,1))
+				with title1.canvas.before:
+					labo= Label(text='Generadoras')
+					title1.add_widget(labo)
+				title2 = BoxLayout(orientation='horizontal',size_hint=(.4,1))
+				with title2.canvas.before:
+					pullayout = BoxLayout(orientation='horizontal',size_hint=(1,1),spacing=10  )
+					with pullayout.canvas.before:
+						pullayout1 = BoxLayout(orientation='horizontal',size_hint=(.33,1))
+						with pullayout1.canvas.before:
+							pul1 = InputButton1(text="pulsador1")
+							Clock.schedule_interval(pul1.update, 1.0/10.0)
+							pullayout1.add_widget(pul1)
+						pullayout2 = BoxLayout(orientation='horizontal',size_hint=(.33,1))
+						with pullayout2.canvas.before:
+							pul2 = InputButton2(text="pulsador2")
+							Clock.schedule_interval(pul2.update, 1.0/10.0)
+							pullayout2.add_widget(pul2)
+						pullayout3 = BoxLayout(orientation='horizontal',size_hint=(.33,1))
+						with pullayout3.canvas.before:
+							pul3 = InputButton3(text="pulsador3")
+							Clock.schedule_interval(pul3.update, 1.0/10.0)
+							pullayout3.add_widget(pul3)
+					pullayout.add_widget(pullayout1)
+					pullayout.add_widget(pullayout2)
+					pullayout.add_widget(pullayout3)
 
-		speedSlider2 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider2.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+				title2.add_widget(pullayout)
 
-		speedSlider3 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider3.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+				title3 = BoxLayout(orientation='horizontal',size_hint=(.3,1))
+				with title3.canvas.before:
+					labo2= Label(text='Consumidoras')
+					title3.add_widget(labo2)
 
-		speedSlider4 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider4.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+			#superlayout = GridLayout(cols=2,spacing=20,padding=40,rows=1)
+			titlelayout.add_widget(title1)
+			titlelayout.add_widget(title2)
+			titlelayout.add_widget(title3)
+			superlayout = BoxLayout(orientation='horizontal', spacing=10, size_hint=(1,.8) )
+			with superlayout.canvas.before:
+				layout1 = GridLayout(cols=3,rows=4, size_hint=(.42,1))
+				with layout1.canvas.before:
 
-		speedSlider5 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider5.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+					button1.bind(on_press=press_callback)
+					button2.bind(on_press=press_callback)
+					button3.bind(on_press=press_callback)
+					button4.bind(on_press=press_callback)
+					button5.bind(on_press=press_callback)
+					button6.bind(on_press=press_callback)
+					button7.bind(on_press=press_callback)
+					button8.bind(on_press=press_callback)
+					button9.bind(on_press=press_callback)
 
-		speedSlider6 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider6.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+					layout1.add_widget(button1)
+					layout1.add_widget(button2)
+					layout1.add_widget(button3)
+					layout1.add_widget(button4)
+					layout1.add_widget(button5)
+					layout1.add_widget(button6)
+					layout1.add_widget(button7)
+					layout1.add_widget(button8)
+					layout1.add_widget(button9)
 
-		speedSlider7 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider7.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+				layout2 = BoxLayout(orientation='vertical',size_hint=(.16,1) )
+				#layout2 = BoxLayout(orientation='horizontal')
+				with layout2.canvas.before:
 
-		speedSlider8 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider8.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+					button21.bind(on_press=press_callback)
+					button22.bind(on_press=press_callback)
+					button23.bind(on_press=press_callback)
+					button24.bind(on_press=press_callback)
 
-		speedSlider9 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider9.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+					layout2.add_widget(button21)
+					layout2.add_widget(button22)
+					layout2.add_widget(button23)
+					layout2.add_widget(button24)
 
-		speedSlider10 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider10.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+				layout3 = GridLayout(cols=3,rows=4,size_hint=(.42,1))
+				#layout2 = BoxLayout(orientation='horizontal')
+				with layout3.canvas.before:
 
-		speedSlider11 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider11.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+					button11.bind(on_press=press_callback)
+					button12.bind(on_press=press_callback)
+					button13.bind(on_press=press_callback)
+					button14.bind(on_press=press_callback)
+					button15.bind(on_press=press_callback)
+					button16.bind(on_press=press_callback)
+					button17.bind(on_press=press_callback)
+					button18.bind(on_press=press_callback)
+					button19.bind(on_press=press_callback)
+					button20.bind(on_press=press_callback)
 
-		speedSlider12 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider12.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+					layout3.add_widget(button11)
+					layout3.add_widget(button12)
+					layout3.add_widget(button13)
+					layout3.add_widget(button14)
+					layout3.add_widget(button15)
+					layout3.add_widget(button16)
+					layout3.add_widget(button17)
+					layout3.add_widget(button18)
+					layout3.add_widget(button19)
+					layout3.add_widget(button20)
 
-		speedSlider13 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider13.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+			inArduino = InputArduino()
+			Clock.schedule_interval(inArduino.update, 1.0/10.0)
 
-		speedSlider14 = Slider(orientation='vertical', min=7, max=15, value=7,step=1)
-		speedSlider14.bind(on_touch_down=update_speed, on_touch_move=update_speed)
+			superlayout.add_widget(layout1)
+			superlayout.add_widget(layout2)
+			superlayout.add_widget(layout3)
 
-		inArduino = InputArduino(text="inArduino")
-		Clock.schedule_interval(inArduino.update, 1.0/10.0)
-		pul1 = InputButton1(text="pulsador1")
-		Clock.schedule_interval(pul1.update, 1.0/10.0)
-		pul2 = InputButton2(text="pulsador2")
-		Clock.schedule_interval(pul2.update, 1.0/10.0)
-		pul3 = InputButton3(text="pulsador3")
-		Clock.schedule_interval(pul3.update, 1.0/10.0)
+		megalayout.add_widget(titlelayout)
+		megalayout.add_widget(superlayout)
 
-		sw1 = InputSW1(text="sw1")
-		Clock.schedule_interval(sw1.update, 1.0/10.0)
-		sw2 = InputSW2(text="sw2")
-		Clock.schedule_interval(sw2.update, 1.0/10.0)
-		sw3 = InputSW3(text="sw3")
-		Clock.schedule_interval(sw3.update, 1.0/10.0)
-		sw4 = InputSW4(text="sw4")
-		Clock.schedule_interval(sw4.update, 1.0/10.0)
-   
-		'''
-		layout.add_widget(speedSlider1)
-		layout.add_widget(speedSlider2)
-		layout.add_widget(speedSlider3)
-		layout.add_widget(speedSlider4)
-		layout.add_widget(speedSlider5)
-		layout.add_widget(speedSlider6)
-		layout.add_widget(speedSlider7)
-		layout.add_widget(speedSlider8)
-		layout.add_widget(speedSlider9)
-		layout.add_widget(speedSlider10)
-		layout.add_widget(speedSlider11)
-		layout.add_widget(speedSlider12)
-		layout.add_widget(speedSlider13)
-		layout.add_widget(speedSlider14)
-         	'''
-		button1.bind(on_press=press_callback)
-		button2.bind(on_press=press_callback)
-		button3.bind(on_press=press_callback)
-		button4.bind(on_press=press_callback)
-		button5.bind(on_press=press_callback)
-		button6.bind(on_press=press_callback)
-		button7.bind(on_press=press_callback)
-		button8.bind(on_press=press_callback)
-		button9.bind(on_press=press_callback)
-		button10.bind(on_press=press_callback)
-		button11.bind(on_press=press_callback)
-		button12.bind(on_press=press_callback)
-		button13.bind(on_press=press_callback)
-		button14.bind(on_press=press_callback)
-		button15.bind(on_press=press_callback)
-		button16.bind(on_press=press_callback)
-		button17.bind(on_press=press_callback)
-		button18.bind(on_press=press_callback)
-		button19.bind(on_press=press_callback)
-		button20.bind(on_press=press_callback)		
-		button21.bind(on_press=press_callback)
-		button22.bind(on_press=press_callback)
-		button23.bind(on_press=press_callback)
-		button24.bind(on_press=press_callback)
-
-		layout.add_widget(button1)
-		layout.add_widget(button2)
-		layout.add_widget(button3)
-		layout.add_widget(button4)
-		layout.add_widget(button5)
-		layout.add_widget(button6)
-		layout.add_widget(button7)
-		layout.add_widget(button8)
-		layout.add_widget(button9)
-		layout.add_widget(button10)
-		
-		layout.add_widget(button11)
-		layout.add_widget(button12)
-		layout.add_widget(button13)
-		layout.add_widget(button14)
-		layout.add_widget(button15)
-		layout.add_widget(button16)
-		layout.add_widget(button17)
-		layout.add_widget(button18)
-		layout.add_widget(button19)
-		layout.add_widget(button20)
-		
-		layout.add_widget(button21)
-		layout.add_widget(button22)
-		layout.add_widget(button23)
-		layout.add_widget(button24)
-		
-		layout.add_widget(pul1)
-		layout.add_widget(pul2)
-		layout.add_widget(pul3)
-		
-		return layout
+		return megalayout
 if __name__ == '__main__':
 
 	MyApp().run()
